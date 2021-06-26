@@ -5,13 +5,21 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, Controls.IPlayerActions
 {
-    private Vector2 _direction;
+    [Header("Basic Movement")]
     [SerializeField] private float _startingVerticalPosition = -8.5f;
     [SerializeField] private float _speed = 5.0f;
+    private Vector2 _direction;
+
+    [Header("Weapons")] 
+    [SerializeField] private float _fireRate = 0.15f;
+    [SerializeField] private GameObject _laserPrefab;
+    
+    // Screen Boundaries
     private float _screenLimitLeft;
     private float _screenLimitRight;
     private float _screenLimitTop;
     private float _screenLimitBottom;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +57,24 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if (context.performed)
+        {
+            StartCoroutine(nameof(FireContinuously), _fireRate);
+            
+        }
+
+        if (context.canceled)
+        {
+            StopCoroutine(nameof(FireContinuously));
+        }
+    }
+
+    private IEnumerator FireContinuously(float fireRate)
+    {
+        while (true)
+        {
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(fireRate);
+        }
     }
 }
