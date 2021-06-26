@@ -14,12 +14,19 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     [SerializeField] private float _fireRate = 0.15f;
     [SerializeField] private GameObject _laserPrefab;
     
+    //NOTE: this flag is used to prevent the stacking of Fire controls (Mouse and Keyboard both have inputs for Fire)
+    private bool _isFiring; 
+    //NOTE: this flag is used to prevent the multiple activation of the fire control from bypassing the fire rate;
+    private float _nextFire = -1f;
+    
+    
     // Screen Boundaries
     private float _screenLimitLeft;
     private float _screenLimitRight;
     private float _screenLimitTop;
     private float _screenLimitBottom;
     
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,15 +64,18 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !_isFiring && Time.time > _nextFire)
         {
+            _isFiring = true;
+            _nextFire = Time.time + _fireRate;
             StartCoroutine(nameof(FireContinuously), _fireRate);
             
         }
 
-        if (context.canceled)
+        if (context.canceled && _isFiring)
         {
             StopCoroutine(nameof(FireContinuously));
+            _isFiring = false;
         }
     }
 

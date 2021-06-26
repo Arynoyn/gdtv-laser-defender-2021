@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingVerticalPosition: -8.5
   _speed: 5
+  _fireRate: 0.15
   _laserPrefab: {fileID: 2997359275750017749, guid: 3554e3edc17fc4c5a969ad70a5d8de90, type: 3}
 --- !u!114 &6027080801413202921
 MonoBehaviour:
