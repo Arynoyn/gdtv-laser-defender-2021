@@ -662,6 +662,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eec923abb68b541d28ab62dc15452fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startingWaveIndex: 0
   _waveConfigs:
   - {fileID: 11400000, guid: d104a487c62ce47729e65584c2fc01fc, type: 2}
   - {fileID: 11400000, guid: 58fc38a2b684448a29d48f53b9d4c558, type: 2}
+  - {fileID: 11400000, guid: 83b3f2bb9bece467cb032724e9fa85ac, type: 2}
+  - {fileID: 11400000, guid: fadf1d076797742f985a6e84f1897864, type: 2}
