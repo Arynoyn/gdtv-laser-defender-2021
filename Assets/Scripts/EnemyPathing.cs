@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyPathing : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _waypoints;
+    [SerializeField] private WaveConfig _waveConfig;
     [SerializeField] private float _movementSpeed = 2f;
+    private List<Transform> _waypoints;
 
     private int _currentWaypointIndex = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
-        transform.position = _waypoints[_currentWaypointIndex].transform.position;
+        if (_waveConfig == null)
+        {
+            Debug.LogError("Wave Config is null on Enemy Pathing!");
+        }
+        else
+        {
+            _waypoints = _waveConfig.GetWaypoints();
+            transform.position = _waypoints[_currentWaypointIndex].transform.position;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovementAlongPath();
@@ -23,6 +31,7 @@ public class EnemyPathing : MonoBehaviour
 
     private void CalculateMovementAlongPath()
     {
+        if (_waypoints == null || !_waypoints.Any()) return;
         if (_currentWaypointIndex < _waypoints.Count)
         {
             var targetPosition = _waypoints[_currentWaypointIndex].transform.position;
